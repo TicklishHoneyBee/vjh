@@ -1,0 +1,7 @@
+#ifndef _VOYAGER_CONFIG_H
+#define _VOYAGER_CONFIG_H
+
+#define DEFAULT_SCREEN_WIDTH 1024
+#define DEFAULT_SCREEN_HEIGHT 768
+
+#endif

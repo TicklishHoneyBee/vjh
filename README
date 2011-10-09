@@ -1,0 +1,62 @@
+===============================================================================
+				README
+===============================================================================
+
+ABOUT:
+Voyager: Journey Home is a side-scrolling shooter inspired by the Star Trek:
+ Voyager television series. Battle against several well known enemies from the
+ series to get Voyager home to earth.
+
+DEPENDENCIES:
+Voyager: Journey Home requires the standard (GNU)C libraries, and SDL (SDL,
+ sdl-mixer, sdl-image, sdl-ttf). The development packages for these are also
+ required to compile VJH.
+
+INSTALL:
+If you're reading this then you've already unpacked the tarball,
+so just:
+1) cd /path/to/voyager
+2) make
+3) su -
+4) make install
+
+USE:
+simply run voyager from any console/terminal
+Select options from the main menu to adjust the window size, and game controls.
+
+DEFAULT CONTROLS:
+ w		move voyager up
+ s		move voyager down
+ d		move voyager right
+ a		move voyager left
+ esc		quit game
+ p		pause game
+ 1		change speed to thrusters
+ 2		change speed to impulse
+ 3		change speed to warp
+ 4		change speed to trans-warp (only available after collecting a
+		 trans-warp coil from a borg vessel)
+ mouse		target enemies
+ left-click	fire phaser
+ right-click	fire photon torpedo
+
+LICENSE:
+Voyager: Journey Home is licensed under the GPLv3, there's a copy of it in
+ LICENSE
+Star Trek and Voyager are trademark and copyright of Viacom, parent corporation
+ for Paramount Studios and CBS, Inc. This is a fan-game, no copyright
+ infringement is intended.
+
+DEVELOPMENT:
+I might do more to it, if so I'll let everyone know either through
+linuxforums.org or http://sandbox.ltmnet.com/voyager
+If you make any changes, let me know lisa@ltmnet.com
+
+BUGS:
+occasional freezes when large amounts of weapons fire is on screen
+enemies currently vanish at the edge of the screen, instead of off-screen
+some others that I've forgotten about right now
+
+CHANGES:
+0.1
+	- initial release
