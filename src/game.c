@@ -98,6 +98,9 @@ void game_main()
 		}
 		return;
 	}
+	
+	if (level >= SHIP_COUNT) {
+	}
 
 	int s;
 	int i;
@@ -206,7 +209,11 @@ void game_main()
 		if (level > 1 && ships[active_ship].pos.x > ships[VOYAGER].pos.x-100 && ships[active_ship].pos.x < ships[VOYAGER].pos.x+300)
 			s /= 1.5;
 		ship_move(active_ship,-s,ships[active_ship].y_mot);
-		if (ships[active_ship].pos.x < -ships[active_ship].surface->w || ships[active_ship].pos.y > screen_size[1] || ships[active_ship].pos.y < -ships[active_ship].surface->h)
+		if (ships[active_ship].pos.x < -ships[active_ship].surface->w)
 			ships[active_ship].onscreen = 0;
+		if (ships[active_ship].pos.y > (screen_size[1]-(ships[active_ship].surface->h+30)))
+			ships[active_ship].y_mot = -1;
+		if (ships[active_ship].pos.y < 0)
+			ships[active_ship].y_mot = 1;
 	}
 }

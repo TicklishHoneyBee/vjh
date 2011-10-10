@@ -251,8 +251,6 @@ void torpedo(int ship, int x, int y)
 	if (bank < 0)
 		return;
 
-	ships[ship].weapons[4]--;
-
 	int id = -1;
 	int i;
 	int c = 0;
@@ -269,6 +267,8 @@ void torpedo(int ship, int x, int y)
 	if (c > ships[ship].weapons[5])
 		return;
 
+
+	ships[ship].weapons[4]--;
 	sound_play(SND_TORPEDO);
 
 	shots_active[id].type = WEAPON_TORPEDO;
