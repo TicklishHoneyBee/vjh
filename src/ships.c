@@ -55,6 +55,7 @@ void ships_init()
 		ships[i].weapons[2] = 1;
 		ships[i].weapons[3] = 1;
 		ships[i].weapons[4] = 6;
+		ships[i].weapons[5] = 1;
 	}
 	ships[VOYAGER].pos.x = (screen_size[0]/3)-100;
 	ships[VOYAGER].pos.y = screen_size[1]/2;

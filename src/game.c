@@ -146,7 +146,7 @@ void game_main()
 				pickup_add(screen_size[0]-200,y,PU_LIFE,1);
 				pickup_add(screen_size[0]-150,y,PU_PARTS,5);
 				pickup_add(screen_size[0]-100,y,PU_SHEILDS,level);
-				pickup_add(screen_size[0]-50,y,PU_PHASER,level);
+				pickup_add(screen_size[0]-50,y,PU_PHASER,2);
 				pickup_add(screen_size[0],y,PU_TORPEDO,level);
 				s_time = now+4;
 			}

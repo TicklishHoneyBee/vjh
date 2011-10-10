@@ -264,7 +264,7 @@ void torpedo(int ship, int x, int y)
 		}
 	}
 
-	if (c > ships[ship].weapons[5])
+	if (c >= ships[ship].weapons[5])
 		return;
 
 

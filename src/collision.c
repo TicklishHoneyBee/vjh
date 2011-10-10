@@ -291,7 +291,11 @@ void collision_detect()
 					pu->y = te->y;
 					pu->type = te->pu;
 					pu->hit = 0;
-					pu->value = rand_range(1,5);
+					if (pu->type == PU_PHASER) {
+						pu->value = rand_range(1,2);
+					}else{
+						pu->value = rand_range(1,5);
+					}
 					pu->next = NULL;
 					put = pickups;
 					if (put) {
@@ -376,10 +380,20 @@ void collision_detect()
 				}
 			}else if (pu->type == PU_PHASER) {
 				k = pu->value;
-				while (k) {
-					for (i=0; i<4; i++) {
+				for (i=0; i<4; i++) {
+					if (!ships[VOYAGER].weapons[i]) {
 						ships[VOYAGER].weapons[i]++;
 						k--;
+					}
+					if (!k)
+						break;
+				}
+				for (h=0; k && h<2; h++) {
+					for (i=0; i<4; i++) {
+						if (ships[VOYAGER].weapons[i] < 2) {
+							ships[VOYAGER].weapons[i]++;
+							k--;
+						}
 						if (!k)
 							break;
 					}
@@ -390,7 +404,7 @@ void collision_detect()
 					ships[VOYAGER].sheild_state[1] = 100;
 			}else if (pu->type == PU_TORPEDO) {
 				ships[VOYAGER].weapons[4] += pu->value;
-				if (pu->value > 4)
+				if (pu->value > 4 && ships[VOYAGER].weapons[5] < 3)
 					ships[VOYAGER].weapons[5]++;
 			}else if (pu->type == PU_LIFE) {
 				lives += 1;
