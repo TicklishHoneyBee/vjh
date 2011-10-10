@@ -292,7 +292,11 @@ void hud_game()
 	hud_print(-1,screen_size[1]-49,game_font,ORANGE,"Structural Integrity: %3d%%   Sheilds: %3d%%",ships[VOYAGER].structural_integrity,ships[VOYAGER].sheild_state[1]);
 	hud_print(-1,screen_size[1]-34,game_font,ORANGE,"Torpedos: %2d     Lives: %d",ships[VOYAGER].weapons[4],lives);
 
-	i = (screen_size[1]+280)/2;
+	i = (screen_size[1]+140)/2;
+	if (ships[VOYAGER].drives[3]) {
+		hud_print(i+25,screen_size[1]-19,game_font,GREEN,"TransWarp");
+		hud_print(i+95,screen_size[1]-19,game_font,ORANGE,"/");
+	}
 	hud_print(i+100,screen_size[1]-19,game_font,ships[VOYAGER].drives[2] ? GREEN : RED,"Warp");
 	hud_print(i+135,screen_size[1]-19,game_font,ORANGE,"/");
 	hud_print(i+143,screen_size[1]-19,game_font,ships[VOYAGER].drives[1] ? GREEN : RED,"Impulse");

@@ -174,7 +174,7 @@ void draw_phaser(int id)
 
 		ll = sqrtf((ttx*ttx)+(tty*tty));
 
-		inc = 100.f/(ll/60.0f);
+		inc = 100.f/(ll/100.0f);
 
 		float p = (float)(shots_active[id].pos)/100.0f;
 
@@ -312,7 +312,7 @@ void draw_torpedo(int id)
 
 		ll = sqrtf((ttx*ttx)+(tty*tty));
 
-		inc = 100.f/(ll/10.0f);
+		inc = 100.f/(ll/20.0f);
 
 		float p = (float)(shots_active[id].pos)/100.0f;
 

@@ -101,10 +101,13 @@ void game_main()
 	int s;
 	int i;
 	int k;
+	int y;
 
 	if (boss_mode) {
 		s = level*3;
 		if (!boss_ships[0]) {
+			int o = (screen_size[1]/(s*1.5));
+			y = o;
 			for (i=0; i<s; i++) {
 				boss_ships[i] = ship_clone(level);
 				if (boss_ships[i] < 0) {
@@ -117,11 +120,13 @@ void game_main()
 				}
 				ships[boss_ships[i]].onscreen = 1;
 				ships[boss_ships[i]].pos.x = screen_size[0];
-				ships[boss_ships[i]].pos.y = (screen_size[1]/(s+1))*(i+1);
+				ships[boss_ships[i]].pos.y = y;
+				y += o;
 			}
 		}else if (ships[boss_ships[0]].pos.x > screen_size[0]-300) {
 			for (i=0; i<s; i++) {
-				ships[boss_ships[i]].pos.x -= 5;
+				if (!(i%2) || ships[boss_ships[i]].pos.x > screen_size[0]-150)
+					ships[boss_ships[i]].pos.x -= 5;
 			}
 		}else{
 			k = 0;
@@ -133,7 +138,12 @@ void game_main()
 				boss_ships[0] = 0;
 				boss_mode = 0;
 				level++;
-				lives++;
+				y = rand_range(100,screen_size[1]-100);
+				pickup_add(screen_size[0]-200,y,PU_LIFE,1);
+				pickup_add(screen_size[0]-150,y,PU_PARTS,5);
+				pickup_add(screen_size[0]-100,y,PU_SHEILDS,level);
+				pickup_add(screen_size[0]-100,y,PU_PHASER,level);
+				pickup_add(screen_size[0]-100,y,PU_TORPEDO,level);
 				s_time = now+4;
 			}
 			if (w_time >= now)
@@ -161,6 +171,11 @@ void game_main()
 		ships[active_ship].onscreen = 1;
 		ships[active_ship].pos.x = screen_size[0];
 		ships[active_ship].pos.y = rand_range(10,(screen_size[1]-50)-ships[active_ship].surface->h);
+		if (ships[active_ship].pos.y > (screen_size[1]*0.75)) {
+			ships[active_ship].y_mot = -1;
+		}else if (ships[active_ship].pos.y < (screen_size[1]/4)) {
+			ships[active_ship].y_mot = 1;
+		}
 	}else if (active_ship && !ships[active_ship].onscreen) {
 		s_time = now+((10/(ships[VOYAGER].speed[0]+1))+1);
 		active_ship = 0;
@@ -188,10 +203,9 @@ void game_main()
 		}
 		s = 3*level;
 		if (level > 1 && ships[active_ship].pos.x > ships[VOYAGER].pos.x-100 && ships[active_ship].pos.x < ships[VOYAGER].pos.x+300)
-			s /= 2;
-		ship_move(active_ship,-s,0);
-		if (ships[active_ship].pos.x < 1) {
+			s /= 1.5;
+		ship_move(active_ship,-s,ships[active_ship].y_mot);
+		if (ships[active_ship].pos.x < -ships[active_ship].surface->w || ships[active_ship].pos.y > screen_size[1] || ships[active_ship].pos.y < -ships[active_ship].surface->h)
 			ships[active_ship].onscreen = 0;
-		}
 	}
 }

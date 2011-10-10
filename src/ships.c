@@ -168,13 +168,13 @@ void ships_main()
 	int vy = 0;
 	if (game_state < 2) {
 		if (key[0] && ships[VOYAGER].pos.y > 0)
-			vy -= 4;
+			vy -= 6;
 		if (key[1] && ships[VOYAGER].pos.y < (screen_size[1]-100))
-			vy += 4;
+			vy += 6;
 		if (key[2] && ships[VOYAGER].pos.x > 50)
-			vx -= 4;
+			vx -= 6;
 		if (key[3] && ships[VOYAGER].pos.x < (screen_size[0]-200))
-			vx += 4;
+			vx += 6;
 
 		ship_move(VOYAGER,vx,vy);
 
@@ -195,11 +195,14 @@ void ships_main()
 
 	int ticks = SDL_GetTicks();
 	int i;
+	SDL_Rect pos;
 	for (i=0; i<ships_cnt; i++) {
 		if (ships[i].onscreen) {
-			SDL_BlitSurface(ships[i].surface,NULL,screen,&ships[i].pos);
+			pos = ships[i].pos;
+			SDL_BlitSurface(ships[i].surface,NULL,screen,&pos);
 			if (ships[i].sheild_state[0] > ticks && ships[i].sheild_state[1] && ships[i].sheilds) {
-				SDL_BlitSurface(ships[i].sheilds,NULL,screen,&ships[i].pos);
+				pos = ships[i].pos;
+				SDL_BlitSurface(ships[i].sheilds,NULL,screen,&pos);
 			}
 		}
 	}
@@ -258,6 +261,8 @@ int ship_clone(int type)
 	ships[r].weapons[2] = 1;
 	ships[r].weapons[3] = 1;
 	ships[r].weapons[4] = 6;
+	
+	ships[r].y_mot = rand_range(-1,1);
 
 	return r;
 }

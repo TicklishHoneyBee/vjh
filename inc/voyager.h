@@ -20,6 +20,7 @@ typedef struct ship_s {
 	int drives[4];
 	int speed[4];
 	int onscreen;
+	int y_mot;
 	int phaser[4][2];
 	int weapons[5];
 	SDL_Color phaser_color;
@@ -30,6 +31,16 @@ int screen_size[3];
 SDL_Surface *bg;
 SDL_Surface *explosion;
 SDL_Surface *pickup;
+
+enum {
+	PU_NONE,
+	PU_PHASER,
+	PU_TORPEDO,
+	PU_SHEILDS,
+	PU_PARTS,
+	PU_LIFE,
+	PU_TRANSWARP
+};
 
 enum {
 	VOYAGER,
@@ -168,6 +179,7 @@ void draw_torpedo(int id);
 void weapon_main(void);
 
 /* defined in collision.c */
+void pickup_add(int x, int y, int type, int value);
 void movement(int id, int x, int y);
 void collision_detect(void);
 void collision(int sid1, int sid2, int wid1, int wid2, int x, int y);
@@ -180,6 +192,11 @@ void sound_play(int snd);
 /* defined in game.c */
 extern int lives;
 extern int level;
+extern int boss_mode;
+extern int boss_ships[20];
+extern time_t s_time;
+extern time_t w_time;
+extern int active_ship;
 extern int game_state;
 void game_start(void);
 void game_exit(void);

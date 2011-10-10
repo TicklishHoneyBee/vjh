@@ -18,14 +18,6 @@
 
 #include "voyager.h"
 
-enum {
-	PU_NONE,
-	PU_PHASER,
-	PU_TORPEDO,
-	PU_SHEILDS,
-	PU_PARTS
-};
-
 typedef struct motion_s {
 	int x;
 	int y;
@@ -65,6 +57,33 @@ static void s_collision_disable_weapon(int id, int x, int y)
 	int w = weapon_get_bank(id,x,y);
 	if (w > -1)
 		ships[id].weapons[w] = 0;
+}
+
+void pickup_add(int x, int y, int type, int value)
+{
+	pickup_t *put;
+	pickup_t *pu = malloc(sizeof(pickup_t));
+	if (!pu)
+		return;
+	pu->x = x;
+	pu->y = y;
+	pu->type = type;
+	pu->hit = 0;
+	if (type == PU_TRANSWARP) {
+		pu->hit = 1;
+		pu->ticks = SDL_GetTicks()+500;
+	}
+	pu->value = value;
+	pu->next = NULL;
+	put = pickups;
+	if (put) {
+		while (put->next) {
+			put = put->next;
+		}
+		put->next = pu;
+	}else{
+		pickups = pu;
+	}
 }
 
 void movement(int id, int x, int y)
@@ -122,7 +141,7 @@ void collision_detect()
 			continue;
 		}else{
 			for (i=0; i<ships_cnt; i++) {
-				if (!ships[i].onscreen || i == shots_active[m->id].ship)
+				if (!ships[i].onscreen || i == shots_active[m->id].ship || (boss_mode && i != VOYAGER && shots_active[m->id].ship != VOYAGER))
 					continue;
 				slx = (ships[i].pos.x+ships[i].surface->w);
 				sly = (ships[i].pos.y+ships[i].surface->h);
@@ -142,7 +161,7 @@ void collision_detect()
 				pxt = pxt << fmt->Aloss;  /* Expand to a full 8-bit number */
 				pxa = (Uint8)pxt;
 
-				if (pxa > 100)
+				if (pxa > 5)
 					continue;
 				collision(i,-1,m->id,-1,m->x,m->y);
 				h = 1;
@@ -178,7 +197,7 @@ void collision_detect()
 		slx = (ships[i].pos.x+ships[i].surface->w);
 		sly = (ships[i].pos.y+ships[i].surface->h);
 		for (k=i+1; k<ships_cnt; k++) {
-			if (!ships[k].onscreen || !game_state)
+			if (!ships[k].onscreen || !game_state || (boss_mode && i != VOYAGER && k != VOYAGER))
 				continue;
 			slx2 = (ships[k].pos.x+ships[k].surface->w);
 			sly2 = (ships[k].pos.y+ships[k].surface->h);
@@ -314,14 +333,25 @@ void collision_detect()
 			free(put);
 			continue;
 		}else if (pu->hit){
+			int c = RED;
+			if (ticks%5)
+				c = ORANGE;
 			if (pu->type == PU_PARTS) {
-				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,ORANGE,"Integrity +%d%%",pu->value*5);
+				if (pu->value == -1) {
+					hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"TransWarp Coil");
+				}else{
+					hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"Integrity +%d%%",pu->value*5);
+				}
 			}else if (pu->type == PU_PHASER) {
-				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,ORANGE,"Phasers +%d",pu->value);
+				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"Phasers +%d",pu->value);
 			}else if (pu->type == PU_SHEILDS) {
-				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,ORANGE,"Sheilds +%d%%",pu->value*10);
+				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"Sheilds +%d%%",pu->value*10);
 			}else if (pu->type == PU_TORPEDO) {
-				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,ORANGE,"Torpedos +%d",pu->value);
+				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"Torpedos +%d",pu->value);
+			}else if (pu->type == PU_LIFE) {
+				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"Life +1");
+			}else if (pu->type == PU_TRANSWARP) {
+				hud_print(pu->x,(pu->y+((pu->ticks-ticks)/10))-60,NULL,c,"TransWarp");
 			}
 		}else if (
 			(pu->x+20) > ships[VOYAGER].pos.x
@@ -337,11 +367,12 @@ void collision_detect()
 				}else if (!ships[VOYAGER].drives[1]) {
 					ships[VOYAGER].drives[1] = 8;
 				}else if (!ships[VOYAGER].drives[2]) {
-					ships[VOYAGER].drives[2] = 90;
+					ships[VOYAGER].drives[2] = 50;
 				}else if (ships[VOYAGER].structural_integrity != 100) {
 					ships[VOYAGER].structural_integrity += (pu->value*5);
 				}else if (level == BORG_CUBE) {
 					ships[VOYAGER].drives[3] = 300;
+					pu->value = -1;
 				}
 			}else if (pu->type == PU_PHASER) {
 				k = pu->value;
@@ -359,6 +390,8 @@ void collision_detect()
 					ships[VOYAGER].sheild_state[1] = 100;
 			}else if (pu->type == PU_TORPEDO) {
 				ships[VOYAGER].weapons[4] += pu->value;
+			}else if (pu->type == PU_LIFE) {
+				lives += 1;
 			}
 		}else{
 			dest.x = pu->x-20;
