@@ -34,7 +34,7 @@ void ships_init()
 		ships[i].pos.w = 0;
 		ships[i].pos.h = 0;
 		ships[i].drives[0] = 1;
-		ships[i].drives[1] = 7;
+		ships[i].drives[1] = 8;
 		ships[i].drives[2] = 90;
 		ships[i].drives[3] = 0;
 		ships[i].speed[0] = 1;

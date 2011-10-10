@@ -413,7 +413,8 @@ void collision_detect()
 			dest.x = pu->x-20;
 			dest.y = pu->y-20;
 			SDL_BlitSurface(pickup,NULL,screen,&dest);
-			pu->x -= 4;
+			if (game_state < 2)
+				pu->x -= 4;
 		}
 		pup = pu;
 		pu = pu->next;
