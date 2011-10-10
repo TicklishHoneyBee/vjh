@@ -22,7 +22,7 @@ typedef struct ship_s {
 	int onscreen;
 	int y_mot;
 	int phaser[4][2];
-	int weapons[5];
+	int weapons[6];
 	SDL_Color phaser_color;
 } ship_t;
 

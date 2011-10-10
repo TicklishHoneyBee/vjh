@@ -71,7 +71,7 @@ void pickup_add(int x, int y, int type, int value)
 	pu->hit = 0;
 	if (type == PU_TRANSWARP) {
 		pu->hit = 1;
-		pu->ticks = SDL_GetTicks()+500;
+		pu->ticks = SDL_GetTicks()+700;
 	}
 	pu->value = value;
 	pu->next = NULL;
@@ -148,20 +148,20 @@ void collision_detect()
 				if (!(m->x > ships[i].pos.x && m->x < slx && m->y > ships[i].pos.y && m->y < sly))
 					continue;
 
-				fmt = ships[i].surface->format;
+				fmt = ships[i].sheilds->format;
 				slx = (m->x-ships[i].pos.x);
 				sly = (m->y-ships[i].pos.y);
 
-				SDL_LockSurface(ships[i].surface);
-				px = (((Uint32*)ships[i].surface->pixels))[(sly*ships[i].surface->w)+slx];
-				SDL_UnlockSurface(ships[i].surface);
+				SDL_LockSurface(ships[i].sheilds);
+				px = (((Uint32*)ships[i].sheilds->pixels))[(sly*ships[i].sheilds->w)+slx];
+				SDL_UnlockSurface(ships[i].sheilds);
 
 				pxt = px & fmt->Amask;  /* Isolate alpha component */
 				pxt = pxt >> fmt->Ashift; /* Shift it down to 8-bit */
 				pxt = pxt << fmt->Aloss;  /* Expand to a full 8-bit number */
 				pxa = (Uint8)pxt;
 
-				if (pxa > 5)
+				if (pxa > 100)
 					continue;
 				collision(i,-1,m->id,-1,m->x,m->y);
 				h = 1;
@@ -334,7 +334,7 @@ void collision_detect()
 			continue;
 		}else if (pu->hit){
 			int c = RED;
-			if (ticks%5)
+			if (ticks%5 < 3)
 				c = ORANGE;
 			if (pu->type == PU_PARTS) {
 				if (pu->value == -1) {
@@ -360,18 +360,18 @@ void collision_detect()
 			&& pu->y < (ships[VOYAGER].pos.y+ships[VOYAGER].surface->h)
 		) {
 			pu->hit = 1;
-			pu->ticks = ticks+500;
+			pu->ticks = ticks+700;
 			if (pu->type == PU_PARTS) {
 				if (!ships[VOYAGER].drives[0]) {
 					ships[VOYAGER].drives[0] = 1;
 				}else if (!ships[VOYAGER].drives[1]) {
 					ships[VOYAGER].drives[1] = 8;
 				}else if (!ships[VOYAGER].drives[2]) {
-					ships[VOYAGER].drives[2] = 50;
+					ships[VOYAGER].drives[2] = 90;
 				}else if (ships[VOYAGER].structural_integrity != 100) {
 					ships[VOYAGER].structural_integrity += (pu->value*5);
 				}else if (level == BORG_CUBE) {
-					ships[VOYAGER].drives[3] = 300;
+					ships[VOYAGER].drives[3]++;
 					pu->value = -1;
 				}
 			}else if (pu->type == PU_PHASER) {
@@ -390,6 +390,8 @@ void collision_detect()
 					ships[VOYAGER].sheild_state[1] = 100;
 			}else if (pu->type == PU_TORPEDO) {
 				ships[VOYAGER].weapons[4] += pu->value;
+				if (pu->value > 4)
+					ships[VOYAGER].weapons[5]++;
 			}else if (pu->type == PU_LIFE) {
 				lives += 1;
 			}

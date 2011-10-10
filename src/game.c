@@ -80,7 +80,7 @@ void game_main()
 		ships[VOYAGER].sheild_state[0] = 0;
 		ships[VOYAGER].sheild_state[1] = 100;
 		ships[VOYAGER].drives[0] = 1;
-		ships[VOYAGER].drives[1] = 7;
+		ships[VOYAGER].drives[1] = 8;
 		ships[VOYAGER].drives[2] = 90;
 		ships[VOYAGER].drives[3] = 0;
 		ships[VOYAGER].weapons[0] = 1;
@@ -88,6 +88,7 @@ void game_main()
 		ships[VOYAGER].weapons[2] = 1;
 		ships[VOYAGER].weapons[3] = 1;
 		ships[VOYAGER].weapons[4] = 6;
+		ships[VOYAGER].weapons[5] = 1;
 		ships[VOYAGER].pos.x = (screen_size[0]/3)-100;
 		ships[VOYAGER].pos.y = screen_size[1]/2;
 		ships[VOYAGER].onscreen = 1;
@@ -142,8 +143,8 @@ void game_main()
 				pickup_add(screen_size[0]-200,y,PU_LIFE,1);
 				pickup_add(screen_size[0]-150,y,PU_PARTS,5);
 				pickup_add(screen_size[0]-100,y,PU_SHEILDS,level);
-				pickup_add(screen_size[0]-100,y,PU_PHASER,level);
-				pickup_add(screen_size[0]-100,y,PU_TORPEDO,level);
+				pickup_add(screen_size[0]-50,y,PU_PHASER,level);
+				pickup_add(screen_size[0],y,PU_TORPEDO,level);
 				s_time = now+4;
 			}
 			if (w_time >= now)

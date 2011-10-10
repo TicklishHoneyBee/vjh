@@ -93,7 +93,7 @@ void stub_transwarp()
 		pickup_add(screen_size[0]/2,screen_size[1]/2,PU_TRANSWARP,level);
 		w_time = time(NULL);
 		s_time = w_time+4;
-		ships[VOYAGER].drives[3] = 0;
+		ships[VOYAGER].drives[3]--;
 		if (boss_mode) {
 			for (i=0; i<s; i++) {
 				ships[boss_ships[i]].onscreen = 0;

@@ -105,7 +105,7 @@ int weapon_get_bank(int ship, int x, int y)
 	}
 }
 
-static void s_draw_pixel(int x, int y, SDL_Color *c)
+static inline void s_draw_pixel(int x, int y, SDL_Color *c)
 {
 	SDL_Rect dest = {x,y,1,1};
 	Uint32 color = SDL_MapRGB(screen->format,c->r,c->g,c->b);
@@ -260,13 +260,13 @@ void torpedo(int ship, int x, int y)
 		if (shots_active[i].type == WEAPON_INACTIVE) {
 			if (id < 0)
 				id = i;
-		}else if (shots_active[i].type == WEAPON_TORPEDO){
+		}else if (shots_active[i].type == WEAPON_TORPEDO) {
 			if (shots_active[i].ship == ship && shots_active[i].bank == bank)
 				c++;
 		}
 	}
 
-	if (c)
+	if (c > ships[ship].weapons[5])
 		return;
 
 	sound_play(SND_TORPEDO);

@@ -79,9 +79,9 @@ void ships_init()
 	ships[KAZON].phaser[2][1] = 52;
 	ships[KAZON].phaser[3][0] = 18;
 	ships[KAZON].phaser[3][1] = 17;
-	ships[KAZON].phaser_color.r = 200;
-	ships[KAZON].phaser_color.g = 0;
-	ships[KAZON].phaser_color.b = 0;
+	ships[KAZON].phaser_color.r = 32;
+	ships[KAZON].phaser_color.g = 120;
+	ships[KAZON].phaser_color.b = 230;
 
 	ships[HIROGEN].phaser[0][0] = 103;
 	ships[HIROGEN].phaser[0][1] = 5;
@@ -103,9 +103,9 @@ void ships_init()
 	ships[S8472].phaser[2][1] = 35;
 	ships[S8472].phaser[3][0] = 45;
 	ships[S8472].phaser[3][1] = 35;
-	ships[S8472].phaser_color.r = 200;
-	ships[S8472].phaser_color.g = 0;
-	ships[S8472].phaser_color.b = 0;
+	ships[S8472].phaser_color.r = 236;
+	ships[S8472].phaser_color.g = 236;
+	ships[S8472].phaser_color.b = 30;
 
 	ships[BORG_CUBE].phaser[0][0] = 175;
 	ships[BORG_CUBE].phaser[0][1] = 55;
@@ -252,9 +252,9 @@ int ship_clone(int type)
 	ships[r].phaser[3][0] = ships[type].phaser[3][0];
 	ships[r].phaser[3][1] = ships[type].phaser[3][1];
 
-	ships[r].phaser_color.r = 200;
-	ships[r].phaser_color.g = 0;
-	ships[r].phaser_color.b = 0;
+	ships[r].phaser_color.r = ships[type].phaser_color.r;
+	ships[r].phaser_color.g = ships[type].phaser_color.g;
+	ships[r].phaser_color.b = ships[type].phaser_color.b;
 
 	ships[r].weapons[0] = 1;
 	ships[r].weapons[1] = 1;
