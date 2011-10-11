@@ -54,9 +54,22 @@ If you make any changes, let me know lisa@ltmnet.com
 
 BUGS:
 occasional freezes when large amounts of weapons fire is on screen
-enemies currently vanish at the edge of the screen, instead of off-screen
 some others that I've forgotten about right now
 
 CHANGES:
 0.1
 	- initial release
+0.1.1
+	added end of game scene
+	stop pickups moving when game is paused
+	set max weapons caps
+	improvements to enemy movement
+	bugfix so enemies fly offscreen instead of vanishing on edge
+	improvements to collision detection
+	added custom phaser colours for enemies
+	changed ship positioning in boss mode
+	increased weapon and ship speed
+	add 2/3 at a time torpedo fire capability
+	made pickup text flash
+	transwarp pickup now skips to end of level
+	changed end-of-level bonuses to pickups instead of silent collections

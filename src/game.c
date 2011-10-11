@@ -209,8 +209,6 @@ void game_main()
 			boss_mode = 1;
 			s_time = now+5;
 			level_ships = 0;
-			if (level == SHIP_COUNT)
-				game_exit();
 		}
 	}else if (active_ship) {
 		if (w_time < now) {
