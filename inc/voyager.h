@@ -198,6 +198,7 @@ extern time_t s_time;
 extern time_t w_time;
 extern int active_ship;
 extern int game_state;
+extern int eog[4];
 void game_start(void);
 void game_exit(void);
 void game_main(void);

@@ -167,7 +167,7 @@ void ships_main()
 {
 	int vx = 0;
 	int vy = 0;
-	if (game_state < 2) {
+	if (game_state < 2 && !eog[3]) {
 		if (key[0] && ships[VOYAGER].pos.y > 0)
 			vy -= 6;
 		if (key[1] && ships[VOYAGER].pos.y < (screen_size[1]-100))

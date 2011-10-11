@@ -25,6 +25,7 @@ int active_ship;
 int level_ships;
 int boss_mode;
 int boss_ships[20];
+int eog[4];
 time_t s_time;
 time_t w_time;
 
@@ -49,6 +50,10 @@ void game_start()
 	boss_mode = 0;
 	lives = 3;
 	s_time = time(NULL);
+	eog[0] = 6;
+	eog[1] = screen_size[1]/2;
+	eog[2] = 0;
+	eog[3] = 0;
 	w_time = 0;
 	srand((unsigned int)s_time);
 }
@@ -100,6 +105,23 @@ void game_main()
 	}
 	
 	if (level >= SHIP_COUNT) {
+		eog[3] = 1;
+		if (ships[VOYAGER].pos.y > eog[1]+5) {
+			ship_move(VOYAGER,0,-5);
+		}else if (ships[VOYAGER].pos.y < eog[1]-5) {
+			ship_move(VOYAGER,0,5);
+		}else if (ships[VOYAGER].pos.x > screen_size[0]) {
+			if (eog[2]) {
+				if (eog[2] < SDL_GetTicks())
+					game_exit();
+			}else{
+				eog[2] = SDL_GetTicks()+500;
+			}
+		}else{
+			ship_move(VOYAGER,eog[0],0);
+			eog[0] += 2;
+		}
+		return;
 	}
 
 	int s;
