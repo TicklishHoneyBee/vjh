@@ -24,6 +24,7 @@ int lives;
 int active_ship;
 int level_ships;
 int boss_mode;
+int transwarp;
 int boss_ships[20];
 int eog[4];
 time_t s_time;
@@ -47,6 +48,7 @@ void game_start()
 	game_state = 1;
 	level = 1;
 	level_ships = 0;
+	transwarp = 0;
 	boss_mode = 0;
 	lives = 3;
 	s_time = time(NULL);
@@ -70,10 +72,16 @@ void game_exit()
 
 void game_main()
 {
+	int s;
+	int i;
+	int k;
+	int y;
+	time_t now;
+
 	if (game_state != 1)
 		return;
 
-	time_t now = time(NULL);
+	now = time(NULL);
 
 	if (!ships[VOYAGER].onscreen) {
 		if (--lives < 1) {
@@ -84,9 +92,9 @@ void game_main()
 		ships[VOYAGER].structural_integrity = 100;
 		ships[VOYAGER].sheild_state[0] = 0;
 		ships[VOYAGER].sheild_state[1] = 100;
-		ships[VOYAGER].drives[0] = 1;
-		ships[VOYAGER].drives[1] = 8;
-		ships[VOYAGER].drives[2] = 90;
+		ships[VOYAGER].drives[0] = THRUSTER_SPEED;
+		ships[VOYAGER].drives[1] = IMPULSE_SPEED;
+		ships[VOYAGER].drives[2] = WARP_SPEED;
 		ships[VOYAGER].drives[3] = 0;
 		ships[VOYAGER].weapons[0] = 1;
 		ships[VOYAGER].weapons[1] = 1;
@@ -103,7 +111,66 @@ void game_main()
 		}
 		return;
 	}
-	
+
+	if (transwarp == 1) {
+		k = 0;
+		if (boss_mode) {
+			s = level*3;
+			for (i=0; i<s; i++) {
+				if (ships[boss_ships[i]].onscreen) {
+					k = 1;
+					break;
+				}
+			}
+			if (k) {
+				for (i=0; i<s; i++) {
+					if (ships[boss_ships[i]].pos.x > 0) {
+						if (ships[boss_ships[i]].onscreen)
+							ships[boss_ships[i]].pos.x -= WARP_SPEED;
+					}else{
+						ships[boss_ships[i]].onscreen = 0;
+					}
+				}
+			}
+		}else if (active_ship && ships[active_ship].onscreen) {
+			k = 1;
+			if (ships[active_ship].pos.x > 0) {
+				ships[active_ship].pos.x -= WARP_SPEED;
+			}else{
+				ships[active_ship].onscreen = 0;
+			}
+		}
+		if (!k) {
+			if (ships[VOYAGER].pos.x > screen_size[0]) {
+				ships[VOYAGER].pos.x = -ships[VOYAGER].surface->w;
+				transwarp = 2;
+			}else{
+				ship_move(VOYAGER,eog[0],0);
+				eog[0] += 2;
+			}
+		}
+		return;
+	}else if (transwarp == 2) {
+		if (ships[VOYAGER].pos.x < 250 && eog[0] > 0) {
+			ship_move(VOYAGER,eog[0],0);
+			eog[0] -= 4;
+			return;
+		}
+		eog[0] = 6;
+		w_time = now;
+		s_time = w_time+4;
+		transwarp = 0;
+		level++;
+		y = rand_range(100,screen_size[1]-100);
+		pickup_add(screen_size[0]-200,y,PU_LIFE,1);
+		pickup_add(screen_size[0]-150,y,PU_PARTS,5);
+		pickup_add(screen_size[0]-100,y,PU_SHEILDS,level);
+		pickup_add(screen_size[0]-50,y,PU_PHASER,level);
+		pickup_add(screen_size[0],y,PU_TORPEDO,level);
+		boss_mode = 0;
+		return;
+	}
+
 	if (level >= SHIP_COUNT) {
 		eog[3] = 1;
 		if (ships[VOYAGER].pos.y > eog[1]+5) {
@@ -123,11 +190,6 @@ void game_main()
 		}
 		return;
 	}
-
-	int s;
-	int i;
-	int k;
-	int y;
 
 	if (boss_mode) {
 		s = level*3;

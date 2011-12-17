@@ -79,29 +79,10 @@ void stub_warp()
 void stub_transwarp()
 {
 	if (ships[VOYAGER].drives[3]) {
+		transwarp = 1;
 		ships[VOYAGER].speed[1] = 90;
-		int y;
-		int i;
-		int s = level*3;
-		level++;
-		y = rand_range(100,screen_size[1]-100);
-		pickup_add(screen_size[0]-200,y,PU_LIFE,1);
-		pickup_add(screen_size[0]-150,y,PU_PARTS,5);
-		pickup_add(screen_size[0]-100,y,PU_SHEILDS,level);
-		pickup_add(screen_size[0]-50,y,PU_PHASER,level);
-		pickup_add(screen_size[0],y,PU_TORPEDO,level);
-		pickup_add(screen_size[0]/2,screen_size[1]/2,PU_TRANSWARP,level);
-		w_time = time(NULL);
-		s_time = w_time+4;
 		ships[VOYAGER].drives[3]--;
-		if (boss_mode) {
-			for (i=0; i<s; i++) {
-				ships[boss_ships[i]].onscreen = 0;
-			}
-		}else if (active_ship) {
-				ships[active_ship].onscreen = 0;
-		}
-		boss_mode = 0;
+		pickup_add(screen_size[0]/2,screen_size[1]/2,PU_TRANSWARP,level);
 	}
 }
 

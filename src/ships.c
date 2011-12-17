@@ -33,9 +33,9 @@ void ships_init()
 		ships[i].pos.y = 400;
 		ships[i].pos.w = 0;
 		ships[i].pos.h = 0;
-		ships[i].drives[0] = 1;
-		ships[i].drives[1] = 8;
-		ships[i].drives[2] = 90;
+		ships[i].drives[0] = THRUSTER_SPEED;
+		ships[i].drives[1] = IMPULSE_SPEED;
+		ships[i].drives[2] = WARP_SPEED;
 		ships[i].drives[3] = 0;
 		ships[i].speed[0] = 1;
 		ships[i].speed[1] = 1;
@@ -169,13 +169,13 @@ void ships_main()
 	int vy = 0;
 	if (game_state < 2 && !eog[3]) {
 		if (key[0] && ships[VOYAGER].pos.y > 0)
-			vy -= 6;
+			vy -= PLAYER_SHIP_SPEED;
 		if (key[1] && ships[VOYAGER].pos.y < (screen_size[1]-100))
-			vy += 6;
+			vy += PLAYER_SHIP_SPEED;
 		if (key[2] && ships[VOYAGER].pos.x > 50)
-			vx -= 6;
+			vx -= PLAYER_SHIP_SPEED;
 		if (key[3] && ships[VOYAGER].pos.x < (screen_size[0]-200))
-			vx += 6;
+			vx += PLAYER_SHIP_SPEED;
 
 		ship_move(VOYAGER,vx,vy);
 
@@ -231,9 +231,9 @@ int ship_clone(int type)
 	ships[r].pos.y = 400;
 	ships[r].pos.w = 0;
 	ships[r].pos.h = 0;
-	ships[r].drives[0] = 1;
-	ships[r].drives[1] = 7;
-	ships[r].drives[2] = 90;
+	ships[r].drives[0] = THRUSTER_SPEED;
+	ships[r].drives[1] = IMPULSE_SPEED;
+	ships[r].drives[2] = WARP_SPEED;
 	ships[r].drives[3] = 0;
 	ships[r].speed[0] = 1;
 	ships[r].speed[1] = 1;

@@ -196,6 +196,7 @@ extern int boss_mode;
 extern int boss_ships[20];
 extern time_t s_time;
 extern time_t w_time;
+extern int transwarp;
 extern int active_ship;
 extern int game_state;
 extern int eog[4];

@@ -363,15 +363,16 @@ void collision_detect()
 			&& (pu->y+20) > ships[VOYAGER].pos.y
 			&& pu->y < (ships[VOYAGER].pos.y+ships[VOYAGER].surface->h)
 		) {
+			/* TODO: play transporter sound on collect */
 			pu->hit = 1;
 			pu->ticks = ticks+700;
 			if (pu->type == PU_PARTS) {
 				if (!ships[VOYAGER].drives[0]) {
-					ships[VOYAGER].drives[0] = 1;
+					ships[VOYAGER].drives[0] = THRUSTER_SPEED;
 				}else if (!ships[VOYAGER].drives[1]) {
-					ships[VOYAGER].drives[1] = 8;
+					ships[VOYAGER].drives[1] = IMPULSE_SPEED;
 				}else if (!ships[VOYAGER].drives[2]) {
-					ships[VOYAGER].drives[2] = 90;
+					ships[VOYAGER].drives[2] = WARP_SPEED;
 				}else if (ships[VOYAGER].structural_integrity != 100) {
 					ships[VOYAGER].structural_integrity += (pu->value*5);
 				}else if (level == BORG_CUBE) {
@@ -414,7 +415,7 @@ void collision_detect()
 			dest.y = pu->y-20;
 			SDL_BlitSurface(pickup,NULL,screen,&dest);
 			if (game_state < 2)
-				pu->x -= 4;
+				pu->x -= PICKUP_SPEED;
 		}
 		pup = pu;
 		pu = pu->next;
