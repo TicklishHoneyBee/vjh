@@ -46,7 +46,7 @@ void game_start()
 {
 	active_ship = 0;
 	game_state = 1;
-	level = 1;
+	level = BORG_CUBE;
 	level_ships = 0;
 	transwarp = 0;
 	boss_mode = 0;

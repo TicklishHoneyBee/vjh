@@ -375,7 +375,7 @@ void collision_detect()
 					ships[VOYAGER].drives[2] = WARP_SPEED;
 				}else if (ships[VOYAGER].structural_integrity != 100) {
 					ships[VOYAGER].structural_integrity += (pu->value*5);
-				}else if (level == BORG_CUBE) {
+				}else if (level == BORG_CUBE && level_ships) {
 					ships[VOYAGER].drives[3]++;
 					pu->value = -1;
 				}

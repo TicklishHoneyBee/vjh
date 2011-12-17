@@ -198,6 +198,7 @@ extern time_t s_time;
 extern time_t w_time;
 extern int transwarp;
 extern int active_ship;
+extern int level_ships;
 extern int game_state;
 extern int eog[4];
 void game_start(void);

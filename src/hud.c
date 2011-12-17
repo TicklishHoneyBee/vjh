@@ -292,19 +292,20 @@ void hud_game()
 	hud_print(-1,screen_size[1]-49,game_font,ORANGE,"Structural Integrity: %3d%%   Sheilds: %3d%%",ships[VOYAGER].structural_integrity,ships[VOYAGER].sheild_state[1]);
 	hud_print(-1,screen_size[1]-34,game_font,ORANGE,"Torpedos: %2d     Lives: %d",ships[VOYAGER].weapons[4],lives);
 
-	i = (screen_size[1]+140)/2;
+	i = (screen_size[1]+155)/2;
 	if (ships[VOYAGER].drives[3]) {
-		hud_print(i+25,screen_size[1]-19,game_font,GREEN,"TransWarp");
-		hud_print(i+95,screen_size[1]-19,game_font,ORANGE,"/");
+		hud_print(i+50,screen_size[1]-19,game_font,GREEN,"TransWarp");
+		hud_print(i+120,screen_size[1]-19,game_font,ORANGE,"/");
+		i += 35;
 	}
-	hud_print(i+100,screen_size[1]-19,game_font,ships[VOYAGER].drives[2] ? GREEN : RED,"Warp");
-	hud_print(i+135,screen_size[1]-19,game_font,ORANGE,"/");
-	hud_print(i+143,screen_size[1]-19,game_font,ships[VOYAGER].drives[1] ? GREEN : RED,"Impulse");
-	hud_print(i+200,screen_size[1]-19,game_font,ORANGE,"Weapons:");
-	hud_print(i+260,screen_size[1]-19,game_font,ships[VOYAGER].weapons[0] ? GREEN : RED,"1");
-	hud_print(i+265,screen_size[1]-19,game_font,ships[VOYAGER].weapons[1] ? GREEN : RED,"2");
-	hud_print(i+272,screen_size[1]-19,game_font,ships[VOYAGER].weapons[2] ? GREEN : RED,"3");
-	hud_print(i+279,screen_size[1]-19,game_font,ships[VOYAGER].weapons[3] ? GREEN : RED,"4");
+	hud_print(i+90,screen_size[1]-19,game_font,ships[VOYAGER].drives[2] ? GREEN : RED,"Warp");
+	hud_print(i+125,screen_size[1]-19,game_font,ORANGE,"/");
+	hud_print(i+133,screen_size[1]-19,game_font,ships[VOYAGER].drives[1] ? GREEN : RED,"Impulse");
+	hud_print(i+190,screen_size[1]-19,game_font,ORANGE,"Weapons Banks:");
+	hud_print(i+285,screen_size[1]-19,game_font,ships[VOYAGER].weapons[0] ? GREEN : RED,"1");
+	hud_print(i+290,screen_size[1]-19,game_font,ships[VOYAGER].weapons[1] ? GREEN : RED,"2");
+	hud_print(i+297,screen_size[1]-19,game_font,ships[VOYAGER].weapons[2] ? GREEN : RED,"3");
+	hud_print(i+304,screen_size[1]-19,game_font,ships[VOYAGER].weapons[3] ? GREEN : RED,"4");
 }
 
 void hud_print(int x, int y, TTF_Font *font, int c, char* fmt, ...)
