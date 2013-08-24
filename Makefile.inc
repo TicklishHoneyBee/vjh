@@ -3,7 +3,7 @@ CD=cd
 RM=rm
 
 CFLAGS=-Wall -g -Iinc/ -I. $(shell sdl-config --cflags)
-CLIBS= $(shell sdl-config --libs) -lSDL_image -lSDL_ttf -lSDL_mixer
+CLIBS= $(shell sdl-config --libs) -lSDL_image -lSDL_ttf -lSDL_mixer -lm
 
 TARGET=voyager
 

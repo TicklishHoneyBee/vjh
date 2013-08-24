@@ -220,8 +220,7 @@ void ship_move(int id, int xinc, int yinc)
 
 int ship_clone(int type)
 {
-	int r = ships_cnt;
-	ships_cnt++;
+	int r = ships_cnt++;
 	ship_t *ns = realloc(ships,sizeof(ship_t)*ships_cnt);
 	if (!ns)
 		return -1;
@@ -262,7 +261,7 @@ int ship_clone(int type)
 	ships[r].weapons[2] = 1;
 	ships[r].weapons[3] = 1;
 	ships[r].weapons[4] = 6;
-	
+
 	ships[r].y_mot = rand_range(-1,1);
 
 	return r;

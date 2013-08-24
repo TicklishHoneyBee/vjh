@@ -46,7 +46,7 @@ void game_start()
 {
 	active_ship = 0;
 	game_state = 1;
-	level = BORG_CUBE;
+	level = 1;
 	level_ships = 0;
 	transwarp = 0;
 	boss_mode = 0;
@@ -83,6 +83,7 @@ void game_main()
 
 	now = time(NULL);
 
+	/* voyager died */
 	if (!ships[VOYAGER].onscreen) {
 		if (--lives < 1) {
 			game_exit();
@@ -112,6 +113,7 @@ void game_main()
 		return;
 	}
 
+	/* transwarp animation, voyager speeds off the right of screen... */
 	if (transwarp == 1) {
 		k = 0;
 		if (boss_mode) {
@@ -150,6 +152,7 @@ void game_main()
 			}
 		}
 		return;
+	/* ... and reappears from the left */
 	}else if (transwarp == 2) {
 		if (ships[VOYAGER].pos.x < 250 && eog[0] > 0) {
 			ship_move(VOYAGER,eog[0],0);
@@ -171,6 +174,7 @@ void game_main()
 		return;
 	}
 
+	/* win! voyager centres vertically, and speeds off to the right */
 	if (level >= SHIP_COUNT) {
 		eog[3] = 1;
 		if (ships[VOYAGER].pos.y > eog[1]+5) {
@@ -211,7 +215,7 @@ void game_main()
 				ships[boss_ships[i]].pos.y = y;
 				y += o;
 			}
-		}else if (ships[boss_ships[0]].pos.x > screen_size[0]-300) {
+		}else if (ships[boss_ships[0]].pos.x > screen_size[0]-350) {
 			for (i=0; i<s; i++) {
 				if (!(i%2) || ships[boss_ships[i]].pos.x > screen_size[0]-150)
 					ships[boss_ships[i]].pos.x -= 5;

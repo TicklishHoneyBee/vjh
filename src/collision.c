@@ -156,9 +156,9 @@ void collision_detect()
 				px = (((Uint32*)ships[i].sheilds->pixels))[(sly*ships[i].sheilds->w)+slx];
 				SDL_UnlockSurface(ships[i].sheilds);
 
-				pxt = px & fmt->Amask;  /* Isolate alpha component */
-				pxt = pxt >> fmt->Ashift; /* Shift it down to 8-bit */
-				pxt = pxt << fmt->Aloss;  /* Expand to a full 8-bit number */
+				pxt = px & fmt->Amask;		/* Isolate alpha component */
+				pxt = pxt >> fmt->Ashift;	/* Shift it down to 8-bit */
+				pxt = pxt << fmt->Aloss;	/* Expand to a full 8-bit number */
 				pxa = (Uint8)pxt;
 
 				if (pxa > 100)
@@ -424,12 +424,21 @@ void collision_detect()
 
 void collision(int sid1, int sid2, int wid1, int wid2, int x, int y)
 {
-	if (wid1 > -1 && wid2 > -1 && shots_active[wid1].type == WEAPON_PHASER && shots_active[wid2].type == WEAPON_PHASER)
-		return;
+	//if (wid1 > -1 && wid2 > -1 && shots_active[wid1].type == WEAPON_PHASER && shots_active[wid2].type == WEAPON_PHASER)
+		//return;
 
 	explosion_t *p = explosions;
 	while (p) {
-		if ((p->wid1 == wid1 && p->wid2 == wid2 && (p->x == x || p->y == y)) || (sid1 > -1 && sid2 > -1 && p->sid1 == sid1 && p->sid2 == sid2) || (wid1 > -1 && sid1 > -1 && p->wid1 == wid1 && p->sid1 == sid1)) {
+		if (
+			(
+				p->wid1 == wid1 && p->wid2 == wid2 &&
+					(p->x == x || p->y == y)
+			) || (
+				sid1 > -1 && sid2 > -1 && p->sid1 == sid1 && p->sid2 == sid2
+			) || (
+				wid1 > -1 && sid1 > -1 && p->wid1 == wid1 && p->sid1 == sid1
+			)
+		) {
 			return;
 		}
 		p = p->next;
